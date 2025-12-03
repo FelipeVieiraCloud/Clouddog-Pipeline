@@ -2,7 +2,7 @@
 #                                  CUSTOMER VARIABLES                                    #
 #========================================================================================#
 
-customer_name    = "nibi"
+ccustomer_name    = "nibi"
 environment_name = "devops"
 aws_region       = "us-east-1"
 # nome da aplicação ou projeto
@@ -11,11 +11,10 @@ project_name = "beeconnect"
 tags = {
   Owner       = "CloudDog"
   Environment = "prod"
-  Project     = "Pipeline-Test"
-  Cost_center = "Clouddog"
+  Project     = "Migration"
+  Cost_center = "Nibi"
   Managed_by  = "Terraform"
 }
-
 #========================================================================================#
 #                                  PIPELINE VARIABLES                                    #
 #========================================================================================#
@@ -29,7 +28,7 @@ tags = {
 source_type             = "GitHub"
 source_repo_branch      = "main"
 source_repo_name        = "FelipeVieiraCloud/Clouddog-Pipeline"
-codestar_connection_arn = "arn:aws:codeconnections:us-east-1:102306345761:connection/5cb4a7ee-1898-45ce-b97a-b09e91841e10"
+codestar_connection_arn = "arn:aws:codeconnections:sa-east-1:102306345761:connection/ed05521f-3e7f-4bb0-8936-7915366b1715"
 
 # Criar novo repositório CodeCommit (apenas para source_type = "CodeCommit")
 create_new_codecommit_repo = false
