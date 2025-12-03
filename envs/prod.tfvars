@@ -29,7 +29,7 @@ tags = {
 source_type             = "GitHub"
 source_repo_branch      = "main"
 source_repo_name        = "FelipeVieiraCloud/Clouddog-Pipeline"
-codestar_connection_arn = "arn:aws:codeconnections:us-east-1:943706828868:connection/a0b44975-de1a-4d24-ac65-1f52c4828f7b"
+codestar_connection_arn = "arn:aws:codeconnections:us-east-1:102306345761:connection/5cb4a7ee-1898-45ce-b97a-b09e91841e10"
 
 # Criar novo repositório CodeCommit (apenas para source_type = "CodeCommit")
 create_new_codecommit_repo = false
