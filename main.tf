@@ -3,6 +3,7 @@ module "s3_artifacts_bucket" {
   source                = "./modules/s3"
   project_name          = var.project_name
   customer_name         = var.customer_name 
+  environment_name      = var.environment_name
   kms_key_arn           = module.codepipeline_kms.arn
   codepipeline_role_arn = module.codepipeline_iam_role.role_arn
   tags                  = var.tags

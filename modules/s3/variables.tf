@@ -36,3 +36,8 @@ variable "prod_role_arn" {
   description = "ARN da role de cross-account do ambiente Produção"
   type        = string
 }
+
+variable "environment_name" {
+  description = "Nome do ambiente (stg, prod, etc)"
+  type        = string
+}

@@ -1,7 +1,7 @@
 #Artifact Bucket
 
 resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket = "${var.customer_name}-${var.project_name}-artifacts-labs-terraform-v1"
+  bucket = "${var.customer_name}-${var.project_name}-${var.environment_name}-artifacts-labs-terraform-v2"
   tags          = var.tags
   force_destroy = true
 }
@@ -62,8 +62,4 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "codepipeline_buck
   }
 }
 
-resource "aws_s3_bucket_logging" "codepipeline_bucket_logging" {
-  bucket        = aws_s3_bucket.codepipeline_bucket.id
-  target_bucket = aws_s3_bucket.codepipeline_bucket.id
-  target_prefix = "log/"
-}
+
