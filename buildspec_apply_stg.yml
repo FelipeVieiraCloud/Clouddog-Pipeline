@@ -1,0 +1,54 @@
+version: 0.2
+
+env:
+  variables:
+    CODE_SRC_DIR: "."
+    TF_VERSION: "1.6.0"
+    TF_VARS_FILE: "stg.tfvars"
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    commands:
+      - echo "Installing dependencies..."
+      - dnf install -y unzip jq wget --allowerasing
+      - pip3 install --no-cache-dir awscli
+      - aws --version
+      - wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
+      - unzip terraform_${TF_VERSION}_linux_amd64.zip
+      - mv terraform /usr/local/bin/
+      - terraform --version
+
+  pre_build:
+    commands:
+      - echo "Assuming role for Staging deployment..."
+      - TEMP_ROLE=$(aws sts assume-role --role-arn $STG_ROLE_ARN --role-session-name "pipeline-deploy-staging")
+      - export AWS_ACCESS_KEY_ID=$(echo $TEMP_ROLE | jq -r '.Credentials.AccessKeyId')
+      - export AWS_SECRET_ACCESS_KEY=$(echo $TEMP_ROLE | jq -r '.Credentials.SecretAccessKey')
+      - export AWS_SESSION_TOKEN=$(echo $TEMP_ROLE | jq -r '.Credentials.SessionToken')
+      - echo "Setting up Terraform directory..."
+      - TF_DIR="${CODEBUILD_SRC_DIR_TerraformSource}/${CODE_SRC_DIR}"
+      - echo "Copying artifacts to Terraform directory..."
+      - cp "${CODEBUILD_SRC_DIR_PlanStagingOutput}/tfplan-stg" "$TF_DIR/tfplan-stg"
+      - cp "${CODEBUILD_SRC_DIR_PlanStagingOutput}/.terraform.lock.hcl" "$TF_DIR/.terraform.lock.hcl" || echo "Lock file not found in artifact"
+      - echo "Copying .terraform directory..."
+      - cp -r "${CODEBUILD_SRC_DIR_PlanStagingOutput}/.terraform" "$TF_DIR/.terraform" || echo ".terraform directory not found in artifact"
+      - echo "Initializing Terraform..."
+      - terraform -chdir="$TF_DIR" init -backend-config=backend/backend-stg.hcl
+
+  build:
+    commands:
+      - TF_DIR="${CODEBUILD_SRC_DIR_TerraformSource}/${CODE_SRC_DIR}"
+      - terraform -chdir="$TF_DIR" apply -input=false -auto-approve tfplan-stg
+      - 'printf "Apply OK at %s\n" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > apply_done.txt'
+
+  post_build:
+    commands:
+      - echo "Deploy to Staging completed on `date`"
+
+artifacts:
+  files:
+    - apply_done.txt
+  discard-paths: no
+  name: ApplyOutput
