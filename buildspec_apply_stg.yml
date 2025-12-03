@@ -34,6 +34,8 @@ phases:
       - cp "${CODEBUILD_SRC_DIR_PlanStagingOutput}/.terraform.lock.hcl" "$TF_DIR/.terraform.lock.hcl" || echo "Lock file not found in artifact"
       - echo "Copying .terraform directory..."
       - cp -r "${CODEBUILD_SRC_DIR_PlanStagingOutput}/.terraform" "$TF_DIR/.terraform" || echo ".terraform directory not found in artifact"
+      - echo "Listing directory contents..."
+      - ls -la "$TF_DIR"
       - echo "Initializing Terraform..."
       - terraform -chdir="$TF_DIR" init -backend-config=backend/backend-stg.hcl
 
