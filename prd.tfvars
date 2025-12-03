@@ -2,7 +2,7 @@
 #                                  CUSTOMER VARIABLES                                    #
 #========================================================================================#
 
-ccustomer_name    = "nibi"
+customer_name    = "nibi"
 environment_name = "devops"
 aws_region       = "us-east-1"
 # nome da aplicação ou projeto

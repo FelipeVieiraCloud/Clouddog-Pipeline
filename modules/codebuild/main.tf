@@ -1,6 +1,6 @@
-resource "aws_codebuild_project" "terraform_codebuild_project_build_stg" {
+resource "aws_codebuild_project" "terraform_codebuild_project_plan_stg" {
 
-  name           = "${var.customer_name}-${var.project_name}-build-stg-terraform"
+  name           = "${var.customer_name}-${var.project_name}-plan-stg-terraform"
   service_role   = aws_iam_role.codebuild_terraform_role.arn
   encryption_key = var.kms_key_arn
   tags           = var.tags
@@ -69,9 +69,9 @@ resource "aws_codebuild_project" "terraform_codebuild_project_plan_prod" {
   }
 }
 
-resource "aws_codebuild_project" "terraform_codebuild_project_deploy_stg" {
+resource "aws_codebuild_project" "terraform_codebuild_project_apply_stg" {
 
-  name           = "${var.customer_name}-${var.project_name}-deploy-stg-terraform"
+  name           = "${var.customer_name}-${var.project_name}-apply-stg-terraform"
   service_role   = aws_iam_role.codebuild_terraform_role.arn
   encryption_key = var.kms_key_arn
   tags           = var.tags
