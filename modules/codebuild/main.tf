@@ -1,6 +1,6 @@
-resource "aws_codebuild_project" "terraform_codebuild_project_build_stg" {
+resource "aws_codebuild_project" "terraform_codebuild_project_plan_stg" {
 
-  name           = "${var.customer_name}-${var.project_name}-build-stg-terraform"
+  name           = "${var.customer_name}-${var.project_name}-plan-stg-terraform"
   service_role   = aws_iam_role.codebuild_terraform_role.arn
   encryption_key = var.kms_key_arn
   tags           = var.tags
@@ -69,9 +69,9 @@ resource "aws_codebuild_project" "terraform_codebuild_project_plan_prod" {
   }
 }
 
-resource "aws_codebuild_project" "terraform_codebuild_project_deploy_stg" {
+resource "aws_codebuild_project" "terraform_codebuild_project_apply_stg" {
 
-  name           = "${var.customer_name}-${var.project_name}-deploy-stg-terraform"
+  name           = "${var.customer_name}-${var.project_name}-apply-stg-terraform"
   service_role   = aws_iam_role.codebuild_terraform_role.arn
   encryption_key = var.kms_key_arn
   tags           = var.tags
@@ -109,9 +109,9 @@ resource "aws_codebuild_project" "terraform_codebuild_project_deploy_stg" {
 }
 }
 
-resource "aws_codebuild_project" "terraform_codebuild_project_deploy_prod" {
+resource "aws_codebuild_project" "terraform_codebuild_project_apply_prod" {
 
-  name           = "${var.customer_name}-${var.project_name}-deploy-prod-terraform"
+  name           = "${var.customer_name}-${var.project_name}-apply-prod-terraform"
   service_role   = aws_iam_role.codebuild_terraform_role.arn
   encryption_key = var.kms_key_arn
   tags           = var.tags
@@ -230,7 +230,7 @@ data "aws_iam_policy_document" "codebuild_trust" {
 # 3. A Criação da ROLE (O recurso que estava faltando!)
 # ---------------------------------------------------------------------------
 resource "aws_iam_role" "codebuild_terraform_role" {
-  name               = "${var.customer_name}-${var.project_name}-code-build-role-terraform-v3"
+  name               = "${var.customer_name}-codebuild-${var.environment_name}-role"
   assume_role_policy = data.aws_iam_policy_document.codebuild_trust.json
   
   tags = merge(
@@ -247,7 +247,7 @@ resource "aws_iam_role" "codebuild_terraform_role" {
 # 4. A Criação da POLICY (Baseada no documento do passo 1)
 # ---------------------------------------------------------------------------
 resource "aws_iam_policy" "codebuild_terraform_policy" {
-  name   = "${var.customer_name}-${var.project_name}-codebuild-terraform-policy-v3"
+  name   = "${var.customer_name}-codebuild-${var.environment_name}-policy"
   policy = data.aws_iam_policy_document.codebuild_terraform.json
 }
 

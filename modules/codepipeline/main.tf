@@ -92,7 +92,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       run_order        = 1
 
       configuration = {
-        ProjectName   = "${var.customer_name}-${var.project_name}-build-stg-terraform"
+        ProjectName   = "${var.customer_name}-${var.project_name}-plan-stg-terraform"
         PrimarySource = "TerraformSource"
       }
     }
@@ -125,7 +125,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       run_order        = 1
 
       configuration = {
-        ProjectName   = "${var.customer_name}-${var.project_name}-deploy-stg-terraform"
+        ProjectName   = "${var.customer_name}-${var.project_name}-apply-stg-terraform"
         PrimarySource = "TerraformSource"
       }
     }
@@ -191,7 +191,7 @@ resource "aws_codepipeline" "terraform_pipeline" {
       run_order        = 1
 
       configuration = {
-        ProjectName   = "${var.customer_name}-${var.project_name}-deploy-prod-terraform"
+        ProjectName   = "${var.customer_name}-${var.project_name}-apply-prod-terraform"
         PrimarySource = "TerraformSource"
       }
     }

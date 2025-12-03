@@ -3,16 +3,16 @@
 #========================================================================================#
 
 customer_name    = "nibi"
-environment_name = "devops"
+environment_name = "stg"
 aws_region       = "us-east-1"
 # nome da aplicação ou projeto
 project_name = "beeconnect"
 
 tags = {
   Owner       = "CloudDog"
-  Environment = "prod"
-  Project     = "Pipeline-Test"
-  Cost_center = "Clouddog"
+  Environment = "stg"
+  Project     = "Migration"
+  Cost_center = "Nibi"
   Managed_by  = "Terraform"
 }
 
@@ -39,12 +39,12 @@ create_new_codecommit_repo = false
 #========================================================================================#
 
 # IDs das contas AWS para deploy cross-account para as conta
-stg_account_id = "624497742426"  # Substitua pelo ID da conta de staging
-prod_account_id = "943706828868"  # Substitua pelo ID da conta de produção
+stg_account_id = "624497742426"  # Conta de staging
+prod_account_id = "943706828868"  # Conta de produção
 
 # ARNs das roles para deploy cross-account
-stg_role_arn = "arn:aws:iam::624497742426:role/CLOUDDOG_PIPELINE_TEST_STG"  # Substitua pelo ARN da role de staging
-prod_role_arn = "arn:aws:iam::943706828868:role/CLOUDDOG_PIPELINE_TEST_PRD"  # Substitua pelo ARN da role de produção
+stg_role_arn = "arn:aws:iam::624497742426:role/CLOUDDOG_PIPELINE_TEST_STG"
+prod_role_arn = "arn:aws:iam::943706828868:role/CLOUDDOG_PIPELINE_TEST_PRD"
 
 # Nome da stack SAM para deploy
-stack_name = "clouddog-test-pipeline-stack-terraform"
+stack_name = "nibi-beeconnect-stg-terraform"

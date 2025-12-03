@@ -67,3 +67,8 @@ variable "cross_account_role_arn" {
   type        = string
   default     = "" # Dica: Deixando vazio ou default, ele não quebra se não for usado
 }
+
+variable "codestar_connection_arn" {
+  description = "ARN da conexão CodeStar para GitHub"
+  type        = string
+}

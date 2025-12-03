@@ -1,7 +1,7 @@
 #Artifact Bucket
 
 resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket = "${var.customer_name}-${var.project_name}-artifacts-terraform"
+  bucket = "${var.customer_name}-${var.project_name}-artifacts-labs-terraform"
   tags          = var.tags
   force_destroy = true
 }

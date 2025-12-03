@@ -1,11 +1,11 @@
 output "plan_staging_project_name" {
   description = "Nome do projeto CodeBuild Plan Staging"
-   value       = aws_codebuild_project.terraform_codebuild_project_build_stg.name
+   value       = aws_codebuild_project.terraform_codebuild_project_plan_stg.name
 }
 
 output "apply_staging_project_name" {
   description = "Nome do projeto CodeBuild Apply Staging"
-  value       = aws_codebuild_project.terraform_codebuild_project_deploy_stg.name
+  value       = aws_codebuild_project.terraform_codebuild_project_apply_stg.name
 }
 
 output "plan_production_project_name" {
@@ -15,7 +15,7 @@ output "plan_production_project_name" {
 
 output "apply_production_project_name" {
   description = "Nome do projeto CodeBuild Apply Production"
-  value       = aws_codebuild_project.terraform_codebuild_project_deploy_prod.name
+  value       = aws_codebuild_project.terraform_codebuild_project_apply_prod.name
 }
 
 output "codebuild_terraform_role_arn" {

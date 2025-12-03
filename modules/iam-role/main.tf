@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codepipeline_role" {
-  name = "${var.customer_name}-${var.project_name}-${var.environment_name}-role"
+  name = "${var.customer_name}-codepipeline-${var.environment_name}-role"
   tags = merge(
     var.tags,
     {
@@ -26,7 +26,7 @@ EOF
 }
 
 resource "aws_iam_policy" "codepipeline_policy" {
-  name        = "${var.customer_name}-${var.project_name}-infrastructure-codepipeline-policy-terraform"
+  name        = "${var.customer_name}-codepipeline-${var.environment_name}-policy"
   description = "Policy to allow codepipeline orchestration only"
   tags        = var.tags
   policy      = <<EOF
@@ -86,7 +86,7 @@ resource "aws_iam_policy" "codepipeline_policy" {
       "Action": [
         "codestar-connections:UseConnection"
       ],
-      "Resource": "arn:aws:codeconnections:*:*:connection/*"
+      "Resource": "${var.codestar_connection_arn}"
     },
     {
       "Effect": "Allow",
@@ -94,7 +94,7 @@ resource "aws_iam_policy" "codepipeline_policy" {
         "iam:PassRole"
       ],
       "Resource": [
-        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.customer_name}-${var.project_name}-*-terraform"
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.customer_name}-codebuild-${var.environment_name}-role"
       ]
     },
     {

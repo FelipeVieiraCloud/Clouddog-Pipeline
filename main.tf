@@ -65,5 +65,6 @@ module "codepipeline_iam_role" {
   prod_role_arn           = var.prod_role_arn
   tags                   = var.tags
   cross_account_role_arn    = var.cross_account_role_arn
-  environment_name       = var.environment_name 
+  environment_name       = var.environment_name
+  codestar_connection_arn = var.codestar_connection_arn 
 }
