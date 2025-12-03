@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "kms_key_policy_doc" {
     principals {
       type = "AWS"
       identifiers = [
-        var.codepipeline_role_arn
+        "arn:aws:iam::${local.account_id}:root"
       ]
     }
   }
@@ -52,7 +52,7 @@ data "aws_iam_policy_document" "kms_key_policy_doc" {
     principals {
       type = "AWS"
       identifiers = [
-        var.codepipeline_role_arn
+        "arn:aws:iam::${local.account_id}:root"
       ]
     }
   }
@@ -70,7 +70,7 @@ data "aws_iam_policy_document" "kms_key_policy_doc" {
     principals {
       type = "AWS"
       identifiers = [
-        var.codepipeline_role_arn
+        "arn:aws:iam::${local.account_id}:root"
       ]
     }
 
