@@ -30,7 +30,7 @@ resource "aws_codebuild_project" "terraform_codebuild_project_plan_stg" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = "buildspec_validate_plan_stg.yml"
+    buildspec = "pipeline/buildspecs/buildspec_validate_plan_stg.yml"
   }
 }
 
@@ -65,7 +65,7 @@ resource "aws_codebuild_project" "terraform_codebuild_project_plan_prod" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = "buildspec_validate_plan_prod.yml"
+    buildspec = "pipeline/buildspecs/buildspec_validate_plan_prod.yml"
   }
 }
 
@@ -105,8 +105,8 @@ resource "aws_codebuild_project" "terraform_codebuild_project_apply_stg" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = "buildspec_apply_stg.yml"
-}
+    buildspec = "pipeline/buildspecs/buildspec_apply_stg.yml"
+  }
 }
 
 resource "aws_codebuild_project" "terraform_codebuild_project_apply_prod" {
@@ -145,7 +145,7 @@ resource "aws_codebuild_project" "terraform_codebuild_project_apply_prod" {
   
   source {
     type      = "CODEPIPELINE"
-    buildspec = "buildspec_apply_prod.yml"
+    buildspec = "pipeline/buildspecs/buildspec_apply_prod.yml"
   }
 }
 
