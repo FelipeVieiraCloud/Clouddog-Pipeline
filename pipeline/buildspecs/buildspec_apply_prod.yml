@@ -30,10 +30,10 @@ phases:
       - echo "Setting up Terraform directory..."
       - TF_DIR="${CODEBUILD_SRC_DIR_TerraformSource}/${CODE_SRC_DIR}"
       - echo "Copying artifacts to Terraform directory..."
-      - cp "${CODEBUILD_SRC_DIR_PlanProductionOutput}/tfplan-prod" "$TF_DIR/tfplan-prod"
-      - cp "${CODEBUILD_SRC_DIR_PlanProductionOutput}/.terraform.lock.hcl" "$TF_DIR/.terraform.lock.hcl" || echo "Lock file not found in artifact"
+      - cp "${CODEBUILD_SRC_DIR_PlanProductionOutput}/deploy/tfplan-prod" "$TF_DIR/tfplan-prod"
+      - cp "${CODEBUILD_SRC_DIR_PlanProductionOutput}/deploy/.terraform.lock.hcl" "$TF_DIR/.terraform.lock.hcl" || echo "Lock file not found in artifact"
       - echo "Copying .terraform directory..."
-      - cp -r "${CODEBUILD_SRC_DIR_PlanProductionOutput}/.terraform" "$TF_DIR/.terraform" || echo ".terraform directory not found in artifact"
+      - cp -r "${CODEBUILD_SRC_DIR_PlanProductionOutput}/deploy/.terraform" "$TF_DIR/.terraform" || echo ".terraform directory not found in artifact"
       - echo "Initializing Terraform..."
       - terraform -chdir="$TF_DIR" init -backend-config=backend/backend-prod.hcl
 
