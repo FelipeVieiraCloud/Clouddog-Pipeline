@@ -29,7 +29,7 @@ phases:
       # Validate Production Environment
       - echo "Validating Production environment..."
       - terraform init -backend-config=backend/backend-prod.hcl
-      - terraform plan -var-file="envs/prd.tfvars" -out=tfplan-prod      
+      - terraform plan -var-file="envs/prod.tfvars" -out=tfplan-prod      
       
   post_build:
     commands:
