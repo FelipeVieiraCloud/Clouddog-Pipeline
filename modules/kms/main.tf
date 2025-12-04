@@ -22,4 +22,40 @@ data "aws_iam_policy_document" "kms_key_policy_doc" {
       identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
     }
   }
+
+  statement {
+    sid       = "Allow CodePipeline Service"
+    effect    = "Allow"
+    actions   = [
+      "kms:Decrypt",
+      "kms:DescribeKey",
+      "kms:Encrypt",
+      "kms:GenerateDataKey*",
+      "kms:ReEncrypt*"
+    ]
+    resources = ["*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [var.codepipeline_role_arn]
+    }
+  }
+
+  statement {
+    sid       = "Allow CodeBuild Service"
+    effect    = "Allow"
+    actions   = [
+      "kms:Decrypt",
+      "kms:DescribeKey",
+      "kms:Encrypt",
+      "kms:GenerateDataKey*",
+      "kms:ReEncrypt*"
+    ]
+    resources = ["*"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["codebuild.amazonaws.com"]
+    }
+  }
 }
