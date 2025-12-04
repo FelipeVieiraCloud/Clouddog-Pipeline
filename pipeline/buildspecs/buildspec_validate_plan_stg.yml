@@ -28,6 +28,7 @@ phases:
       
       # Validate Staging Environment
       - echo "Validating Staging environment..."
+      - cd deploy
       - terraform init -backend-config=backend/backend-stg.hcl
       - terraform plan -var-file="envs/stg.tfvars" -out=tfplan-stg      
       
@@ -37,8 +38,8 @@ phases:
 
 artifacts:
   files:
-    - tfplan-stg
-    - .terraform/**/*
-    - .terraform.lock.hcl
+    - deploy/tfplan-stg
+    - deploy/.terraform/**/*
+    - deploy/.terraform.lock.hcl
   name: tfplan-artifact
   discard-paths: no

@@ -2,9 +2,9 @@ version: 0.2
 
 env:
   variables:
-    CODE_SRC_DIR: "."
+    CODE_SRC_DIR: "deploy"
     TF_VERSION: "1.6.0"
-    TF_VARS_FILE: "prod.tfvars"
+    TF_VARS_FILE: "stg.tfvars"
 
 phases:
   install:
@@ -22,30 +22,32 @@ phases:
 
   pre_build:
     commands:
-      - echo "Assuming role for Production deployment..."
-      - TEMP_ROLE=$(aws sts assume-role --role-arn $PRD_ROLE_ARN --role-session-name "pipeline-deploy-production")
+      - echo "Assuming role for Staging deployment..."
+      - TEMP_ROLE=$(aws sts assume-role --role-arn $STG_ROLE_ARN --role-session-name "pipeline-deploy-staging")
       - export AWS_ACCESS_KEY_ID=$(echo $TEMP_ROLE | jq -r '.Credentials.AccessKeyId')
       - export AWS_SECRET_ACCESS_KEY=$(echo $TEMP_ROLE | jq -r '.Credentials.SecretAccessKey')
       - export AWS_SESSION_TOKEN=$(echo $TEMP_ROLE | jq -r '.Credentials.SessionToken')
       - echo "Setting up Terraform directory..."
       - TF_DIR="${CODEBUILD_SRC_DIR_TerraformSource}/${CODE_SRC_DIR}"
       - echo "Copying artifacts to Terraform directory..."
-      - cp "${CODEBUILD_SRC_DIR_PlanProductionOutput}/tfplan-prod" "$TF_DIR/tfplan-prod"
-      - cp "${CODEBUILD_SRC_DIR_PlanProductionOutput}/.terraform.lock.hcl" "$TF_DIR/.terraform.lock.hcl" || echo "Lock file not found in artifact"
+      - cp "${CODEBUILD_SRC_DIR_PlanStagingOutput}/deploy/tfplan-stg" "$TF_DIR/tfplan-stg"
+      - cp "${CODEBUILD_SRC_DIR_PlanStagingOutput}/deploy/.terraform.lock.hcl" "$TF_DIR/.terraform.lock.hcl" || echo "Lock file not found in artifact"
       - echo "Copying .terraform directory..."
-      - cp -r "${CODEBUILD_SRC_DIR_PlanProductionOutput}/.terraform" "$TF_DIR/.terraform" || echo ".terraform directory not found in artifact"
+      - cp -r "${CODEBUILD_SRC_DIR_PlanStagingOutput}/deploy/.terraform" "$TF_DIR/.terraform" || echo ".terraform directory not found in artifact"
+      - echo "Listing directory contents..."
+      - ls -la "$TF_DIR"
       - echo "Initializing Terraform..."
-      - terraform -chdir="$TF_DIR" init -backend-config=backend/backend-prod.hcl
+      - terraform -chdir="$TF_DIR" init -backend-config=backend/backend-stg.hcl
 
   build:
     commands:
       - TF_DIR="${CODEBUILD_SRC_DIR_TerraformSource}/${CODE_SRC_DIR}"
-      - terraform -chdir="$TF_DIR" apply -input=false -auto-approve tfplan-prod
+      - terraform -chdir="$TF_DIR" apply -input=false -auto-approve tfplan-stg
       - 'printf "Apply OK at %s\n" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > apply_done.txt'
 
   post_build:
     commands:
-      - echo "Deploy to Production completed on `date`"
+      - echo "Deploy to Staging completed on `date`"
 
 artifacts:
   files:

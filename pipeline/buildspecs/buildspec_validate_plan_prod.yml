@@ -28,6 +28,7 @@ phases:
       
       # Validate Production Environment
       - echo "Validating Production environment..."
+      - cd deploy
       - terraform init -backend-config=backend/backend-prod.hcl
       - terraform plan -var-file="envs/prod.tfvars" -out=tfplan-prod      
       
@@ -37,8 +38,8 @@ phases:
 
 artifacts:
   files:
-    - tfplan-prod
-    - .terraform/**/*
-    - .terraform.lock.hcl
+    - deploy/tfplan-prod
+    - deploy/.terraform/**/*
+    - deploy/.terraform.lock.hcl
   name: tfplan-artifact
   discard-paths: no
